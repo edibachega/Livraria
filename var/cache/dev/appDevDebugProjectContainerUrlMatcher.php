@@ -105,18 +105,13 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // homepage
+        // livraria_default_index
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'homepage');
+                return $this->redirect($pathinfo.'/', 'livraria_default_index');
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
-        }
-
-        // app_default_contato
-        if ($pathinfo === '/contato') {
-            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::contatoAction',  '_route' => 'app_default_contato',);
+            return array (  '_controller' => 'LivrariaBundle\\Controller\\DefaultController::indexAction',  '_route' => 'livraria_default_index',);
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

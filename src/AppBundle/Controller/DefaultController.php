@@ -21,10 +21,11 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/contato")
+     * @Route("/email", name="email")
      */
-    public function contatoAction()
+    public function emailAction()
     {
-        return new Response(':)');
+        return $this->render('default/email.html.twig');
     }
+    
 }
