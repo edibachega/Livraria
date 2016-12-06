@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+    <h1>
+        {{ form_start(delete_form) }}
+            Produto
+            <button class="pull-right btn btn-danger" type="submit"><span class="glyphicon glyphicon-trash"></span></button>
+        {{ form_end(delete_form) }}
+    </h1>
+    <table class="table table-condensed table-striped">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ produto.id }}</td>
+            </tr>
+            <tr>
+                <th>Nome</th>
+                <td>{{ produto.nome }}</td>
+            </tr>
+            <tr>
+                <th>Quantidade</th>
+                <td>{{ produto.quantidade }}</td>
+            </tr>
+            <tr>
+                <th>Preco</th>
+                <td>{{ produto.preco }}</td>
+            </tr>
+            <tr>
+                <th>Tipo</th>
+                <td>{{ produto.tipo }}</td>
+            </tr>
+            <tr>
+                <th>Imagem</th>
+                <td>{{ produto.imagem }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <a href="{{ path('produtos_index') }}"><button class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></button></a>
+        <a href="{{ path('produtos_edit', { 'id': produto.id }) }}"><button class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button></a>
+
+        
+
+{% endblock %}

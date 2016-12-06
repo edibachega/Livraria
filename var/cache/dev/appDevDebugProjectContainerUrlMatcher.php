@@ -114,6 +114,68 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'LivrariaBundle\\Controller\\DefaultController::indexAction',  '_route' => 'livraria_default_index',);
         }
 
+        if (0 === strpos($pathinfo, '/produtos')) {
+            // produtos_index
+            if (rtrim($pathinfo, '/') === '/produtos') {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_produtos_index;
+                }
+
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'produtos_index');
+                }
+
+                return array (  '_controller' => 'LivrariaBundle\\Controller\\ProdutosController::indexAction',  '_route' => 'produtos_index',);
+            }
+            not_produtos_index:
+
+            // produtos_new
+            if ($pathinfo === '/produtos/new') {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_produtos_new;
+                }
+
+                return array (  '_controller' => 'LivrariaBundle\\Controller\\ProdutosController::newAction',  '_route' => 'produtos_new',);
+            }
+            not_produtos_new:
+
+            // produtos_show
+            if (preg_match('#^/produtos/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_produtos_show;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'produtos_show')), array (  '_controller' => 'LivrariaBundle\\Controller\\ProdutosController::showAction',));
+            }
+            not_produtos_show:
+
+            // produtos_edit
+            if (preg_match('#^/produtos/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_produtos_edit;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'produtos_edit')), array (  '_controller' => 'LivrariaBundle\\Controller\\ProdutosController::editAction',));
+            }
+            not_produtos_edit:
+
+            // produtos_delete
+            if (preg_match('#^/produtos/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                if ($this->context->getMethod() != 'DELETE') {
+                    $allow[] = 'DELETE';
+                    goto not_produtos_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'produtos_delete')), array (  '_controller' => 'LivrariaBundle\\Controller\\ProdutosController::deleteAction',));
+            }
+            not_produtos_delete:
+
+        }
+
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
     }
 }

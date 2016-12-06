@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+        <h1>Novo Produto</h1>
+      
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-success" type="submit" value="Cadastrar">Cadastrar</button>
+        {{ form_end(form) }}
+    
+        <a href="{{ path('produtos_index') }}"><button class="btn btn-primary">Listar</button></a>
+    </div
+{% endblock %}
