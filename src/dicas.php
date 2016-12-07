@@ -13,6 +13,11 @@
 //composer create-project symfony/framework-standard-edition Livraria
 
 
-//bin/console doctrine:generate:entities LivrariaBundle
+//bin/console doctrine:generate:entities LivrariaBundle:Genero //gera os gets and setters
 //bin/console doctrine:schema:create
 //bin/console doctrine:generate:crud
+
+
+
+//bin/console doctrine:schema:update //verifica se está ok para ir pra base
+//bin/console doctrine:schema:update --force //cria as tabelas

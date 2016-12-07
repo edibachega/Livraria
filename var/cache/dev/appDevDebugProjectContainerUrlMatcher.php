@@ -105,13 +105,75 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // livraria_default_index
+        // painel
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'livraria_default_index');
+                return $this->redirect($pathinfo.'/', 'painel');
             }
 
-            return array (  '_controller' => 'LivrariaBundle\\Controller\\DefaultController::indexAction',  '_route' => 'livraria_default_index',);
+            return array (  '_controller' => 'LivrariaBundle\\Controller\\DefaultController::indexAction',  '_route' => 'painel',);
+        }
+
+        if (0 === strpos($pathinfo, '/genero')) {
+            // genero_index
+            if (rtrim($pathinfo, '/') === '/genero') {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_genero_index;
+                }
+
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'genero_index');
+                }
+
+                return array (  '_controller' => 'LivrariaBundle\\Controller\\GeneroController::indexAction',  '_route' => 'genero_index',);
+            }
+            not_genero_index:
+
+            // genero_new
+            if ($pathinfo === '/genero/new') {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_genero_new;
+                }
+
+                return array (  '_controller' => 'LivrariaBundle\\Controller\\GeneroController::newAction',  '_route' => 'genero_new',);
+            }
+            not_genero_new:
+
+            // genero_show
+            if (preg_match('#^/genero/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_genero_show;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'genero_show')), array (  '_controller' => 'LivrariaBundle\\Controller\\GeneroController::showAction',));
+            }
+            not_genero_show:
+
+            // genero_edit
+            if (preg_match('#^/genero/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_genero_edit;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'genero_edit')), array (  '_controller' => 'LivrariaBundle\\Controller\\GeneroController::editAction',));
+            }
+            not_genero_edit:
+
+            // genero_delete
+            if (preg_match('#^/genero/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                if ($this->context->getMethod() != 'DELETE') {
+                    $allow[] = 'DELETE';
+                    goto not_genero_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'genero_delete')), array (  '_controller' => 'LivrariaBundle\\Controller\\GeneroController::deleteAction',));
+            }
+            not_genero_delete:
+
         }
 
         if (0 === strpos($pathinfo, '/produtos')) {

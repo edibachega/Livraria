@@ -6,9 +6,9 @@
       
         {{ form_start(form) }}
             {{ form_widget(form) }}
-            <button class="btn btn-success" type="submit" value="Cadastrar">Cadastrar</button>
+            <button class="btn btn-success pull-right" type="submit" value="Cadastrar">Cadastrar</button>
         {{ form_end(form) }}
     
-        <a href="{{ path('produtos_index') }}"><button class="btn btn-primary">Listar</button></a>
-    </div
+        <a href="{{ path('produtos_index') }}"><button class="btn btn-primary pull-right" style="margin-right: 5px;">Listar</button></a>
+
 {% endblock %}

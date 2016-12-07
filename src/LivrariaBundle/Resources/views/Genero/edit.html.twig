@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>
+    <h1>  
         {{ form_start(delete_form) }}
-            Editar Produto
+            Editar Gênero
             <button class="pull-right btn btn-danger" type="submit"><span class="glyphicon glyphicon-trash"></span></button>
         {{ form_end(delete_form) }}
     </h1>
@@ -12,7 +12,5 @@
         {{ form_widget(edit_form) }}
         <button class="btn btn-success pull-right" type="submit" value="Cadastrar">Salvar</button>
     {{ form_end(edit_form) }}
-        <a href="{{ path('produtos_index') }}"><button class="btn btn-primary pull-right" style="margin-right: 5px;">Listar</button></a>
-
-            
+         <a href="{{ path('genero_index') }}"><button class="btn btn-primary pull-right" style="margin-right: 5px;">Listar</button></a>
 {% endblock %}
