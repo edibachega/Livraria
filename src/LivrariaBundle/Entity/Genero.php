@@ -4,6 +4,8 @@ namespace LivrariaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Description of Genero
  *
@@ -22,6 +24,7 @@ class Genero
     private $id;
     
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=100)
      */
     private $nome;   

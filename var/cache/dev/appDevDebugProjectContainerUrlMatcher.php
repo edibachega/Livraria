@@ -105,6 +105,11 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
+        // caixa
+        if ($pathinfo === '/caixa') {
+            return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::pdvAction',  '_route' => 'caixa',);
+        }
+
         // painel
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {

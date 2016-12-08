@@ -21,3 +21,8 @@
 
 //bin/console doctrine:schema:update //verifica se está ok para ir pra base
 //bin/console doctrine:schema:update --force //cria as tabelas
+
+
+//http://br.lipsum.com/
+//http://lorempixel.com/
+//www.dilmesipsum.com.br

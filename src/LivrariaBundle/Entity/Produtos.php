@@ -4,6 +4,8 @@ namespace LivrariaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Description of Produtos
  * 
@@ -22,21 +24,32 @@ class Produtos
     private $id;
     
     /**
+     * @Assert\NotBlank(message="Informe o nome do produto")
      * @ORM\Column(type="string", length=100)
      */
     private $nome;
 
     /**
+     * @Assert\GreaterThanOrEqual(
+     *     value = 0,
+     *      message="A quantidade deve ser maior ou igual a zero")
+     * @Assert\NotBlank(message="Informe a quantidade")
      * @ORM\Column(type="integer")
      */
     private $quantidade;
     
     /**
+     * @Assert\GreaterThanOrEqual(
+     *     value = 0,
+     *      message="O preço deve ser maior ou igual a zero")
+     * @Assert\NotBlank(message="Informe o preço")
      * @ORM\Column(type="decimal", scale=2)
      */
     private $preco;
     
     /**
+     *  
+     * @Assert\NotBlank(message="selecione o tipo")
      * @ORM\Column(type="string")
      */
     private $tipo;
@@ -47,12 +60,14 @@ class Produtos
     private $imagem;
     
     /**
+     * @Assert\NotBlank(message="selecione o gênero do produto")
      * @ORM\ManyToOne(targetEntity="Genero")
      * @ORM\JoinColumn(name="genero_id", referencedColumnName="id")
      */
     private $genero;
    
     /**
+     * 
      * Get id
      *
      * @return integer
