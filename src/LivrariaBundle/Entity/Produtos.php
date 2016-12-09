@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Description of Produtos
+ * Description of Produtos //put your code here
  * 
  * @author aluno
- * 
+ * use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="produtos")
  */

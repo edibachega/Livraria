@@ -105,9 +105,22 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // caixa
-        if ($pathinfo === '/caixa') {
-            return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::pdvAction',  '_route' => 'caixa',);
+        if (0 === strpos($pathinfo, '/caixa')) {
+            // caixa
+            if ($pathinfo === '/caixa') {
+                return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::pdvAction',  '_route' => 'caixa',);
+            }
+
+            // livraria_caixa_finalizarvenda
+            if ($pathinfo === '/caixa/finalizar') {
+                return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::finalizarVendaAction',  '_route' => 'livraria_caixa_finalizarvenda',);
+            }
+
+            // livraria_caixa_listaritens
+            if ($pathinfo === '/caixa/listar') {
+                return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::listarItensAction',  '_route' => 'livraria_caixa_listaritens',);
+            }
+
         }
 
         // painel
