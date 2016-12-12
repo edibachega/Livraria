@@ -111,14 +111,35 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                 return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::pdvAction',  '_route' => 'caixa',);
             }
 
+            // pesquisar_produto
+            if ($pathinfo === '/caixa/carregar') {
+                if ($this->context->getMethod() != 'POST') {
+                    $allow[] = 'POST';
+                    goto not_pesquisar_produto;
+                }
+
+                return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::carregarProdutoAction',  '_route' => 'pesquisar_produto',);
+            }
+            not_pesquisar_produto:
+
+            // livraria_caixa_estornaritem
+            if (0 === strpos($pathinfo, '/caixa/estorno') && preg_match('#^/caixa/estorno/(?P<item>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'livraria_caixa_estornaritem')), array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::estornarItemAction',));
+            }
+
+            // livraria_caixa_cancelarvenda
+            if ($pathinfo === '/caixa/cancelar') {
+                return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::cancelarVendaAction',  '_route' => 'livraria_caixa_cancelarvenda',);
+            }
+
             // livraria_caixa_finalizarvenda
             if ($pathinfo === '/caixa/finalizar') {
                 return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::finalizarVendaAction',  '_route' => 'livraria_caixa_finalizarvenda',);
             }
 
-            // livraria_caixa_listaritens
+            // listagem
             if ($pathinfo === '/caixa/listar') {
-                return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::listarItensAction',  '_route' => 'livraria_caixa_listaritens',);
+                return array (  '_controller' => 'LivrariaBundle\\Controller\\CaixaController::listarItensAction',  '_route' => 'listagem',);
             }
 
         }
