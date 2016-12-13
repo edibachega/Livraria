@@ -101,26 +101,35 @@ class CaixaController extends Controller
         $cupomId = $request->getSession()->get('cupom-id');
         $em = $this->getDoctrine()->getManager();
         
-        $itemOld = $em->getRepository('LivrariaBundle:CupomItem')->findBy(array(
-            'cupomId' => $cupomId,
-            'ordemItem' => $item
-        ));
+        $itemOld = $em->getRepository('LivrariaBundle:CupomItem')
+            ->findOneBy(array(
+                'cupomId' => $cupomId,
+                'ordemItem' => $item
+            ));
+        
+        $cupom = $em->getRepository('LivrariaBundle:Cupom')
+                ->find($cupomId);
+        
+        $quantItem = $em->getRepository('LivrariaBundle:CupomItem')
+                ->findBy(array("cupomId" => $cupomId));
+        
         $itemEstorno = new CupomItem();
-        $itemEstorno->setCupomId($cupomId);
+        $itemEstorno->setCupomId($cupom);
         $itemEstorno->setDescricaoItem("Estorno do Item: $item");
-        $itemEstorno->setItemCod(1001);
+        $itemEstorno->setItemCod(9999);
         $itemEstorno->setQuantidadeItem(1);
         $itemEstorno->setValorUnitario($itemOld->getValorUnitario() * -1);
+        $itemEstorno->setOrdemItem(count($quantItem) +1);
         
         $em->persist($itemEstorno);
         $em->flush();
         
-        return $this->json('ok'); 
+        return $this->redirectToRoute('caixa');
     }
     
     /**
     * 
-    * @Route("/caixa/cancelar")
+    * @Route("/caixa/cancelar", name="cancelar")
     */
     public function cancelarVendaAction(Request $request)
     {
@@ -133,12 +142,14 @@ class CaixaController extends Controller
         $em->persist($cupom);
         $em->flush();
         
-        return $this->json('ok'); 
+        $request->getSession()->set('cupom-id', null);
+        
+        return $this->redirectToRoute('caixa');
     }
     
     /**
      * 
-     * @Route("/caixa/finalizar")
+     * @Route("/caixa/finalizar", name="concluir")
      */
     public function finalizarVendaAction(Request $request)
     {
@@ -148,14 +159,32 @@ class CaixaController extends Controller
         $cupom = $em->getRepository('LivrariaBundle:Cupom')->find($cupomId);
         $cupom->setStatus('FINALIZADO');
         
+        $valorTotal = 0;
+        
+        $itens = $em->getRepository("LivrariaBundle:CupomItem")->findBy(array(
+            "cupomId" => $request->getSession()->get('cupom-id')
+        ));
+        
+        foreach($itens as $item)
+        {
+            $valorTotal +=$item->getValorUnitario();
+            
+            $produto = $em->getRepository('LivrariaBundle:Produtos')->find($item->getItemCod());
+            
+            $produto->setQuantidade($produto->getQuantidade() -1);
+            
+            $em->persist($produto);
+        }
+        
+        $cupom->setValorTotal($valorTotal);
+        
         $em->persist($cupom);
         $em->flush();
         
-        //baixar os ítens do estoque
+        $request->getSession()->set('cupom-id', null);
         
-        //fechar o total da compra
         
-        return $this->json('ok');
+        return $this->redirectToRoute('caixa');
     }
     
     /**
